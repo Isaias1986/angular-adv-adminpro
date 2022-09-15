@@ -11,7 +11,10 @@
 }
 
 
-
+.img-avatar {
+    width: 200px;
+    height: 200px;
+}
 
 #google-btn {
     align-items: center;
