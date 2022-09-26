@@ -22,7 +22,7 @@ export class PerfilComponent implements OnInit {
               private usuarioService: UsuarioService,
               private fileUploadService: FileUploadService) { 
     
-    //this.imagenSubir = new File();
+
     this.usuario = usuarioService.usuario;            
 
                 this.perfilForm = fb.group({
@@ -38,7 +38,6 @@ export class PerfilComponent implements OnInit {
 
 
   actualizarPerfil(){
-    console.log(this.perfilForm.value);
     this.usuarioService.actualizarPerfil(this.perfilForm.value)
       .subscribe( resp => {
         const {nombre, email} = this.perfilForm.value
