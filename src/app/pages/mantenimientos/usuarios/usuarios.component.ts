@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { Hospital } from 'src/app/models/hospital.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { BusquedasService } from 'src/app/services/busquedas.service';
 import { ModalImagenService } from 'src/app/services/modal-imagen.service';
@@ -77,8 +78,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     }    
 
     this.busquedaService.buscar('usuarios',termino)
-        .subscribe( resultados => {
-          this.usuarios = resultados;
+        .subscribe( (resultados: any) => {
+            this.usuarios = resultados;
         });
   }
 
