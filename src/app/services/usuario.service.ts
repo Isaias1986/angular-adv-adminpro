@@ -39,6 +39,10 @@ get uid():string {
  return this.usuario.uid || '';
 }
 
+get role():string {
+  return this.usuario.role as string;
+}
+
 get headers(){
   return {
     headers:{
@@ -47,6 +51,11 @@ get headers(){
   }
 }
 
+
+guardarLocalStorage(token: string, menu: any){
+  localStorage.setItem('token', token);
+  localStorage.setItem('menu', JSON.stringify(menu));
+}
 
 logout(){
   const helper = new JwtHelperService();
@@ -59,6 +68,7 @@ logout(){
       this.router.navigateByUrl('/login');
   }
   localStorage.removeItem('token');
+  localStorage.removeItem('menu');
 }
 
 
@@ -78,7 +88,9 @@ validarToken(): Observable<boolean> {
         resp.usuario.google,
         resp.usuario.role,
         resp.usuario.uid);
-      localStorage.setItem('token', resp.token)
+      
+      this.guardarLocalStorage(resp.token,resp.menu);  
+
       return true;
     }),
     catchError( error => of(false))
@@ -88,11 +100,11 @@ validarToken(): Observable<boolean> {
 
 crearUsuario( formData: RegisterForm){
   return this.http.post(`${base_url}/usuarios`, formData)
-                                                        .pipe(
-                                                          tap((resp:any) => {
-                                                            localStorage.setItem('token', resp.token)
-                                                          })
-                                                        );
+  .pipe(
+    tap((resp:any) => {
+      this.guardarLocalStorage(resp.token,resp.menu);  
+    })
+);
 }
 
 
@@ -110,11 +122,11 @@ actualizarPerfil( data: {email: string, nombre: string, role: string} ){
 
 login( formData: LoginForm){
   return this.http.post(`${base_url}/login`, formData)
-                                                      .pipe(
-                                                        tap((resp:any) => {
-                                                          localStorage.setItem('token', resp.token)
-                                                        })
-                                                      );
+  .pipe(
+    tap((resp:any) => {
+      this.guardarLocalStorage(resp.token,resp.menu);  
+    })
+  );
 }
 
 
@@ -122,7 +134,7 @@ loginGoogle( token: string){
   return this.http.post(`${ base_url }/login/google`, { token })
   .pipe(
       tap((resp:any) => {
-        localStorage.setItem('token', resp.token)
+        this.guardarLocalStorage(resp.token,resp.menu);  
       })
   )
 }

@@ -81,4 +81,11 @@ private transformarHospitales( resultados: any[]) : Hospital[] {
  }
 
 
+ busquedaGlobal(termino: string){
+  const url = `${base_url}/todos/${termino}`;
+  return this.http.get(url,this.headers);
+ }
+
+
+
 }
